@@ -35,12 +35,23 @@ class ONBillScraper(BillScraper):
         data = self.urlopen(detail_url)
         doc = lxml.html.fromstring(data)
 
+        # versions
+        versions = doc.xpath('//option')
+        # skip first option, is a placeholder
+        for version in versions[1:]:
+            v_name = _clean_spaces(version.text_content())
+            v_url = detail_url + '&BillStagePrintId=' + version.get('value')
+            bill.add_version(v_name, v_url, mimetype='text/html')
+            # can get PDF links as well by opening doc & looking for 'pdf'
+            #version_doc = lxml.html.fromstring(self.urlopen(version_url))
+
         # sponsors
         for sp in doc.xpath('//span[@class="pSponsor"]/a'):
             bill.add_sponsor('primary', _clean_spaces(sp.text_content()))
         for sp in doc.xpath('//span[@class="sSponsor"]/a'):
             bill.add_sponsor('cosponsor', _clean_spaces(sp.text_content()))
 
+        # actions
         for row in doc.xpath('//table//tr')[1:]:
             date, stage, activity, committee = row.xpath('td/text()')
             date = datetime.strptime(_clean_spaces(date), "%B %d, %Y")
@@ -52,4 +63,3 @@ class ONBillScraper(BillScraper):
             # default to lower, use committee if present
             actor = committee if committee else 'lower'
             bill.add_action(actor, action, date)
-
