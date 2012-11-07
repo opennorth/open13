@@ -1,4 +1,4 @@
-from billy.scrape.transcriptions import TranscriptionScraper, Transcription
+from billy.scrape.speeches import SpeechScraper, Speech
 
 import datetime as dt
 import lxml.html
@@ -7,7 +7,7 @@ import lxml.html
 HANSARD_URL = 'http://www.leg.bc.ca/hansard/8-8.htm'
 
 
-class BCTranscriptionScraper(TranscriptionScraper):
+class BCSpeechScraper(SpeechScraper):
     jurisdiction = 'bc'
 
     def lxmlize(self, url):
