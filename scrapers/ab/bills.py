@@ -33,7 +33,7 @@ class ABBillScraper(BillScraper):
         doc.make_links_absolute(url)
         xpath = '//table[@id="Table1"]/descendant::tr'
         for (action, lines) in doc.xpath(xpath)[1:]:
-            action = action.text_content().strip()
+            action = action.text_content().strip().strip(':')
             lines = lines.text_content().splitlines()
             lines = [x.strip() for x in lines]
             lines = filter(None, lines)
@@ -58,7 +58,7 @@ class ABBillScraper(BillScraper):
                                          # Assuming the current year applies.
                                          year=datetime.datetime.now().year)
                 if text:
-                    action += (' ' + text.group())
+                    action += (text.group().replace(u'\x97', '-'))
 
                 attrs = dict(action=action, date=date, actor='lower')
                 bill.add_action(**attrs)
