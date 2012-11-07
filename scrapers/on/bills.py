@@ -36,10 +36,10 @@ class ONBillScraper(BillScraper):
         doc = lxml.html.fromstring(data)
 
         # sponsors
-        for sp in doc.xpath('//span[@class="pSponsor"]/text()'):
-            bill.add_sponsor('primary', sp)
-        for sp in doc.xpath('//span[@class="sSponsor"]/text()'):
-            bill.add_sponsor('cosponsor', sp)
+        for sp in doc.xpath('//span[@class="pSponsor"]/a'):
+            bill.add_sponsor('primary', _clean_spaces(sp.text_content()))
+        for sp in doc.xpath('//span[@class="sSponsor"]/a'):
+            bill.add_sponsor('cosponsor', _clean_spaces(sp.text_content()))
 
         for row in doc.xpath('//table//tr')[1:]:
             date, stage, activity, committee = row.xpath('td/text()')
