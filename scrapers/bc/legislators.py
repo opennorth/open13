@@ -71,6 +71,7 @@ class ABLegislatorScraper(LegislatorScraper):
         leg = Legislator(term=term, full_name=full_name, email=email,
             district=district, party=party, chamber='lower', **data)
         leg['toll_free_phone'] = toll_free
+        leg['url'] = url
 
         # Constituencies
         for dist_office in doc.xpath(

@@ -70,6 +70,7 @@ class ABBillScraper(BillScraper):
                                          year=datetime.datetime.now().year)
 
                 attrs = dict(action=action, date=date, actor='lower')
+                attrs.update(self.categorizer.categorize(action))
                 bill.add_action(**attrs)
 
             bill.add_source(url)
