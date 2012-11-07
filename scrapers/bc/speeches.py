@@ -17,7 +17,23 @@ class BCSpeechScraper(SpeechScraper):
         return page
 
     def scrape_hansard(self, session, url):
-        pass
+        subject = None
+        procedure = None
+        speech = None
+
+        def save_speech():
+            if speech:
+                self.save_speech(speech)
+                speech = None
+
+        page = self.lxmlize(url)
+        for para in page.xpath(".//p"):
+            try:
+                klass = para.attrib['class'].strip()
+            except KeyError:
+                continue  # Some para entries have no class.
+
+            print klass
 
     def scrape(self, session, chambers):
         # XXX: Chamber is meaningless here.
