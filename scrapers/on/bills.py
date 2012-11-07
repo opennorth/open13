@@ -3,8 +3,10 @@ import re
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
 
+
 def _clean_spaces(s):
     return re.sub('\s+', ' ', s, flags=re.U).strip()
+
 
 class ONBillScraper(BillScraper):
     jurisdiction = 'on'
