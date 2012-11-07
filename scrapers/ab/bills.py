@@ -61,6 +61,20 @@ class ABBillScraper(BillScraper):
                     action += (text.group().replace(u'\x97', '-'))
 
                 attrs = dict(action=action, date=date, actor='lower')
+                attrs.update(self.categorizer.categorize(action))
                 bill.add_action(**attrs)
 
+        # Snag the versions.
+        urls = set()
+        for anchor in doc.xpath('//a[contains(@href, "bills")]'):
+            url = anchor.attrib['href']
+            if url not in urls and anchor.text:
+                bill.add_version(anchor.text_content(),
+                                 url,
+                                 mimetype='application/pdf')
+                urls.add(url)
 
+        # Snag the sponsor.
+        sponsor = doc.xpath('//a[contains(@class,"sponsorlink")]/text()')
+        if sponsor:
+            bill.add_sponsor(type='primary', name=sponsor.pop())
