@@ -1,4 +1,6 @@
 from billy.scrape.transcripts import TranscriptScraper, Transcript
+
+import datetime as dt
 import lxml.html
 
 
@@ -31,20 +33,26 @@ class BCTranscriptScraper(TranscriptScraper):
 
             if klass == 'ProceduralHeading':
                 procedure = para.text_content()
+                if cur_transcript:
+                    self.save_transcript(cur_transcript)
+                    cur_transcript = None
                 continue
 
             if klass == 'SubjectHeading':
                 subject = para.text_content()
                 if cur_transcript:
                     self.save_transcript(cur_transcript)
-                cur_transcript = Transcript(session, None, procedure, subject)
+                cur_transcript = Transcript(session, dt.datetime.now(),
+                                            procedure, subject)
                 # XXX: This is very bad. Need real data an procedure type
+                cur_transcript.add_source(url)
                 continue
 
             if klass == 'SpeakerBegins':
                 if text_pending:
                     if cur_transcript is None:
                         print "Missing transcript starting point."
+                        print url
                         continue
                     cur_transcript.add_transcript(speaker, text)
                     text_pending = False
@@ -73,7 +81,8 @@ class BCTranscriptScraper(TranscriptScraper):
                 continue
 
             # print klass
-        self.save_transcript(cur_transcript)
+        if cur_transcript:
+            self.save_transcript(cur_transcript)
 
     def scrape(self, session, chambers):
         # XXX: Chamber is meaningless here.
