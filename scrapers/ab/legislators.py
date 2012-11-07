@@ -6,7 +6,7 @@ from billy.scrape.legislators import LegislatorScraper, Legislator
 class ABLegislatorScraper(LegislatorScraper):
     jurisdiction = 'ab'
 
-    def scrape(self, chamber, term):
+    def scrape(self, term, chambers):
 
         url = ('http://www.assembly.ab.ca/net/index.aspx?'
                'p=mla_report&memPhoto=True&alphaboth=True'
@@ -33,7 +33,7 @@ class ABLegislatorScraper(LegislatorScraper):
             full_name = td1.xpath('a/b/text()').pop()
             data['party'] = parties[td1[2].tail.strip()]
             district = td1[3].tail.strip()
-            leg = Legislator(term, chamber, district, full_name, **data)
+            leg = Legislator(term, 'lower', district, full_name, **data)
 
             type_dict = {
                 'Legislature Office': 'capitol',
