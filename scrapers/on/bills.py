@@ -43,7 +43,8 @@ class ONBillScraper(BillScraper):
         for version in versions[1:]:
             v_name = _clean_spaces(version.text_content())
             v_url = detail_url + '&BillStagePrintId=' + version.get('value')
-            bill.add_version(v_name, v_url, mimetype='text/html')
+            bill.add_version(v_name, v_url, mimetype='text/html',
+                             on_duplicate='use_new')
             # can get PDF links as well by opening doc & looking for 'pdf'
             #version_doc = lxml.html.fromstring(self.urlopen(version_url))
 
