@@ -1,5 +1,5 @@
 metadata = dict(
-    name='Ontario',
+    name='Alberta',
     capitol_timezone='America/Alberta',
     abbreviation='ab',
     legislature_name='Legislative Assembly of Alberta',

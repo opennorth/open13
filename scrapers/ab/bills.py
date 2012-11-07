@@ -10,7 +10,7 @@ class ABBillScraper(BillScraper):
     jurisdiction = 'ab'
     categorizer = Categorizer()
 
-    def scrape(self, chamber, session):
+    def scrape(self, session, chambers):
         url = ('http://www.assembly.ab.ca/net/index.aspx?p=bill&section=doc')
         doc = lxml.html.fromstring(self.urlopen(url))
         doc.make_links_absolute(url)
@@ -22,7 +22,7 @@ class ABBillScraper(BillScraper):
             bill_id = td1.text_content().replace(u'\xa0', ' ')
             bill_id.strip('*')
             title = td1.text_content()
-            bill = Bill(session, chamber, bill_id, title, type='bill')
+            bill = Bill(session, 'lower', bill_id, title, type='bill')
             url = bill['url'] = td1.xpath('a/@href').pop()
             bill.add_source(url)
             self.scrape_bill(bill, url)
