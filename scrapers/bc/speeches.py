@@ -17,7 +17,7 @@ class BCSpeechScraper(SpeechScraper):
         page.make_links_absolute(url)
         return page
 
-    def scrape_hansard(self, session, url):
+    def scrape_hansard(self, session, url, hansard_id):
         subject = None
         procedure = None
         speech = None
@@ -57,9 +57,14 @@ class BCSpeechScraper(SpeechScraper):
                     continue
 
                 text = para.text_content()
-                speech = Speech(session, day, sequence, person, text,
-                               subject=subject,
-                               procedure=procedure)
+                speech = Speech(session,
+                                hansard_id,
+                                day,
+                                sequence,
+                                person,
+                                text,
+                                subject=subject,
+                                procedure=procedure)
                 speech.add_source(url)
                 sequence += 1
                 continue
@@ -90,8 +95,18 @@ class BCSpeechScraper(SpeechScraper):
         # XXX: Chamber is meaningless here.
         page = self.lxmlize(HANSARD_URL)
         for row in page.xpath("//table/tr"):
+            hansard_id = row.xpath(".//td[@align='left']")
+            if len(hansard_id) < 2:
+                continue
+
+            brs = hansard_id[1].xpath(".//br")
+            if len(brs) != 1:
+                continue
+
+            hansard_id = brs[0].tail.strip()
             hansard_html = row.xpath(".//a[contains(text(), 'HTML')]")
+
             if hansard_html == []:
                 continue
             for a in hansard_html:
-                self.scrape_hansard(session, a.attrib['href'])
+                self.scrape_hansard(session, a.attrib['href'], hansard_id)
