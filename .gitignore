@@ -1,3 +1,4 @@
 *.pyc
 data/
 cache/
+open13.sqlite3
