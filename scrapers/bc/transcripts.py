@@ -35,6 +35,8 @@ class BCTranscriptScraper(TranscriptScraper):
 
             if klass == 'SubjectHeading':
                 subject = para.text_content()
+                if cur_transcript:
+                    self.save_transcript(cur_transcript)
                 cur_transcript = Transcript(session, None, procedure, subject)
                 # XXX: This is very bad. Need real data an procedure type
                 continue
@@ -44,8 +46,7 @@ class BCTranscriptScraper(TranscriptScraper):
                     if cur_transcript is None:
                         print "Missing transcript starting point."
                         continue
-                    #cur_transcript.add_transcript(speaker, text)
-                    print speaker, 'spoke'
+                    cur_transcript.add_transcript(speaker, text)
                     text_pending = False
                     text = None
                     speaker = None
@@ -69,9 +70,10 @@ class BCTranscriptScraper(TranscriptScraper):
                     print "Ugh, something's out of order."
                     continue
                 text += '\n' + para.text_content()
-                pass
+                continue
 
             # print klass
+        self.save_transcript(cur_transcript)
 
     def scrape(self, session, chambers):
         # XXX: Chamber is meaningless here.
