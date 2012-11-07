@@ -31,6 +31,13 @@ class ONBillScraper(BillScraper):
             # get actions & sponsors
             self.scrape_details(bill, detail_url)
 
+            if not bill['versions']:
+                self.warning('no versions detected via normal method, using '
+                             'top-level page')
+                bill.add_version('Original (current version)',
+                                 title_td.xpath('a/@href')[0],
+                                 mimetype='text/html')
+
             self.save_bill(bill)
 
     def scrape_details(self, bill, detail_url):
