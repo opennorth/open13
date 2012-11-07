@@ -2,6 +2,7 @@ from billy.scrape.speeches import SpeechScraper, Speech
 
 import datetime as dt
 import lxml.html
+import re
 
 
 HANSARD_URL = 'http://www.leg.bc.ca/hansard/8-8.htm'
@@ -30,6 +31,12 @@ class BCSpeechScraper(SpeechScraper):
             except KeyError:
                 continue  # Some para entries have no class.
 
+            if klass == 'SubjectHeading':
+                subject = re.sub("\s+", " ", para.text_content()).strip()
+
+            if klass == 'ProceduralHeading':
+                procedure = re.sub("\s+", " ", para.text_content()).strip()
+
             if klass == 'SpeakerBegins':
                 attribution = para.xpath(".//span[@class='Attribution']")
                 if attribution == []:
@@ -44,9 +51,15 @@ class BCSpeechScraper(SpeechScraper):
                 if speech:
                     self.save_speech(speech)
 
-                person = attribution[0].text_content()
+                person = attribution[0].text_content().strip()
+                if person == "":
+                    print "Error: empty person string. Bad juju."
+                    continue
+
                 text = para.text_content()
-                speech = Speech(session, day, sequence, person, text)
+                speech = Speech(session, day, sequence, person, text,
+                               subject=subject,
+                               procedure=procedure)
                 speech.add_source(url)
                 sequence += 1
                 continue
