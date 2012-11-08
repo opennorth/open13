@@ -4,7 +4,7 @@ import lxml.html
 from billy.scrape.committees import CommitteeScraper, Committee
 
 
-class CACommitteeScraper(CommitteeScraper):
+class ABCommitteeScraper(CommitteeScraper):
 
     jurisdiction = 'ab'
 

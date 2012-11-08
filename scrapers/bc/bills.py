@@ -5,7 +5,7 @@ from billy.scrape.bills import BillScraper, Bill
 from .actions import Categorizer
 
 
-class ABBillScraper(BillScraper):
+class BCBillScraper(BillScraper):
     jurisdiction = 'bc'
     categorizer = Categorizer()
 

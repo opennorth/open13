@@ -12,7 +12,7 @@ from .actions import Categorizer
 DummyBR = namedtuple('DummyBR', 'tag text tail')
 
 
-class MBBillScraper(BillScraper):
+class SKBillScraper(BillScraper):
     jurisdiction = 'sk'
     categorizer = Categorizer()
 

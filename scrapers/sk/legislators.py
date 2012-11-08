@@ -3,7 +3,7 @@ import lxml.html
 from billy.scrape.legislators import LegislatorScraper, Legislator
 
 
-class MBLegislatorScraper(LegislatorScraper):
+class SKLegislatorScraper(LegislatorScraper):
     jurisdiction = 'sk'
 
     def scrape(self, term, chambers):
