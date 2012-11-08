@@ -17,7 +17,6 @@ class MBBillScraper(BillScraper):
     categorizer = Categorizer()
 
     def scrape(self, session, chambers):
-        print session
         url = 'http://www.legassembly.sk.ca/legislative-business/bills/'
         doc = lxml.html.fromstring(self.urlopen(url))
         doc.make_links_absolute(url)
