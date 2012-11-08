@@ -1,5 +1,6 @@
 from billy.scrape.events import EventScraper, Event
 
+import re
 import lxml
 import datetime as dt
 
@@ -27,11 +28,13 @@ class BCEventScraper(EventScraper):
             if web_links == [] and pdf_links == []:
                 continue
 
-            if ids == []:
+            if ids == [] or len(ids) != 1:
                 continue
 
             ids = ids[0]
             date = ids.text.strip()
+            hansard_id = ids.xpath(".//br")[0].tail
+            hansard_id = re.sub("\s+", " ", hansard_id).strip()
             if date == "":
                 continue
 
@@ -56,8 +59,21 @@ class BCEventScraper(EventScraper):
                   time_of_day,
                     date
                 ) if time_of_day else "Session on %s" % (date),
-                location='Parliament Buildings'
+                location='Parliament Buildings',
+                speech_id=hansard_id
             )
+
+            for x in web_links:
+                event.add_document(x.text_content(),
+                                   x.attrib['href'],
+                                   type="speech",
+                                   mimetype="text/html")
+
+            for x in pdf_links:
+                event.add_document(x.text_content(),
+                                   x.attrib['href'],
+                                   type="speech",
+                                   mimetype="application/pdf")
 
             event.add_source(HANSARD_URL)
             self.save_event(event)
