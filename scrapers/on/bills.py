@@ -1,12 +1,7 @@
 from datetime import datetime
-import re
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
-
-
-def _clean_spaces(s):
-    return re.sub('\s+', ' ', s, flags=re.U).strip()
-
+from .utils import clean_spaces
 
 class ONBillScraper(BillScraper):
     jurisdiction = 'on'
@@ -48,7 +43,7 @@ class ONBillScraper(BillScraper):
         versions = doc.xpath('//option')
         # skip first option, is a placeholder
         for version in versions[1:]:
-            v_name = _clean_spaces(version.text_content())
+            v_name = clean_spaces(version.text_content())
             v_url = detail_url + '&BillStagePrintId=' + version.get('value')
             bill.add_version(v_name, v_url, mimetype='text/html',
                              on_duplicate='use_new')
@@ -57,17 +52,17 @@ class ONBillScraper(BillScraper):
 
         # sponsors
         for sp in doc.xpath('//span[@class="pSponsor"]/a'):
-            bill.add_sponsor('primary', _clean_spaces(sp.text_content()))
+            bill.add_sponsor('primary', clean_spaces(sp.text_content()))
         for sp in doc.xpath('//span[@class="sSponsor"]/a'):
-            bill.add_sponsor('cosponsor', _clean_spaces(sp.text_content()))
+            bill.add_sponsor('cosponsor', clean_spaces(sp.text_content()))
 
         # actions
         for row in doc.xpath('//table//tr')[1:]:
             date, stage, activity, committee = row.xpath('td/text()')
-            date = datetime.strptime(_clean_spaces(date), "%B %d, %Y")
-            stage = _clean_spaces(stage)
-            activity = _clean_spaces(activity)
-            committee = _clean_spaces(committee)
+            date = datetime.strptime(clean_spaces(date), "%B %d, %Y")
+            stage = clean_spaces(stage)
+            activity = clean_spaces(activity)
+            committee = clean_spaces(committee)
             # action prefixed with stage if present
             action = '%s - %s' % (stage, activity) if stage else activity
             # default to lower, use committee if present
