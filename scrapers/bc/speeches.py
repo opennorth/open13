@@ -1,10 +1,12 @@
 from billy.scrape.speeches import SpeechScraper, Speech
+from billy.scrape.events import Event
 
 import datetime as dt
 import lxml.html
+import logging
 import re
 
-
+logger = logging.getLogger('open13')
 HANSARD_URL = 'http://www.leg.bc.ca/hansard/8-8.htm'
 
 
@@ -38,22 +40,32 @@ class BCSpeechScraper(SpeechScraper):
                 procedure = re.sub("\s+", " ", para.text_content()).strip()
 
             if klass == 'SpeakerBegins':
-                attribution = para.xpath(".//span[@class='Attribution']")
+                attribution = [x.text_content().strip() for x in
+                               para.xpath(".//span[@class='Attribution']")]
+
+                # XXX: Check if we have a J. Q. Public: at the begining
+                # to mark as attributed. Early results show fail on picking
+                # that up.
+
                 if attribution == []:
-                    print "Error: Speaker began without attribution"
-                    print "  URL: %s" % (url)
-                    print "  Txt: %s" % (para.text_content()[:30])
+                    logger.debug("Error: Speaker began without attribution")
+                    logger.debug("  URL: %s" % (url))
+                    logger.debug("  Txt: %s" % (para.text_content()[:30]))
                     continue
+
                 if day is None:
-                    print "Error: Day is None. Bad juju."
+                    logger.debug("Error: Day is None. Bad juju.")
+                    logger.debug(url)
                     continue
 
                 if speech:
-                    self.save_speech(speech)
+                    self.save_object(speech)
 
-                person = attribution[0].text_content().strip()
+                person = attribution[0]
+                if person.endswith(":"):
+                    person = person.rstrip(":")
                 if person == "":
-                    print "Error: empty person string. Bad juju."
+                    logger.debug("Error: empty person string. Bad juju.")
                     continue
 
                 text = para.text_content()
@@ -64,21 +76,21 @@ class BCSpeechScraper(SpeechScraper):
                                 person,
                                 text,
                                 subject=subject,
-                                procedure=procedure)
+                                section=procedure)
                 speech.add_source(url)
                 sequence += 1
                 continue
 
             if klass == 'SpeakerContinues':
                 if speech is None:
-                    print "Continue before a begin. bad juju."
+                    logger.debug("Continue before a begin. bad juju.")
                     continue
 
                 text = para.text_content()
                 speech['text'] += "\n%s" % (text)
                 continue
 
-            if klass == 'DateOfTranscript':
+            if klass == 'DateOfTranscript' or klass == 'TitlePageDate':
                 date_text = para.text_content().strip().encode(
                     "ascii",
                     "ignore"
@@ -86,27 +98,60 @@ class BCSpeechScraper(SpeechScraper):
                 day = dt.datetime.strptime(date_text, "%A, %B %d, %Y")
                 continue
 
-            # print "Unknown class ID: %s" % (klass)
-
         if speech:
-            self.save_speech(speech)
+            self.save_object(speech)
 
     def scrape(self, session, chambers):
         # XXX: Chamber is meaningless here.
         page = self.lxmlize(HANSARD_URL)
         for row in page.xpath("//table/tr"):
             hansard_id = row.xpath(".//td[@align='left']")
-            if len(hansard_id) < 2:
+            ids = row.xpath(".//td[@align='left']/p")
+            web_links = row.xpath(".//a[contains(text(), 'HTML')]")
+            pdf_links = row.xpath(".//a[contains(text(), 'PDF')]")
+
+            if web_links == [] and pdf_links == []:
+                continue
+            if ids == []:
                 continue
 
-            brs = hansard_id[1].xpath(".//br")
-            if len(brs) != 1:
+            ids = ids[-1]
+            date = ids.text.strip()
+            hansard_id = ids.xpath(".//br")[0].tail
+            hansard_id = re.sub("\s+", " ", hansard_id).strip()
+            if date == "":
                 continue
 
-            hansard_id = brs[0].tail.strip()
-            hansard_html = row.xpath(".//a[contains(text(), 'HTML')]")
+            times_of_day = ["Morning", "Afternoon"]
+            time_of_day = None
+            for time in times_of_day:
+                if date.endswith(time):
+                    date = date.rstrip(", %s" % (time))
+                    time_of_day = time
+            when = dt.datetime.strptime(date, "%A, %B %d, %Y")
+            event = Event(
+                session,
+                when,
+                'cow:meeting',
+                "%s session on %s" % (
+                  time_of_day,
+                    date
+                ) if time_of_day else "Session on %s" % (date),
+                location='Parliament Buildings',
+                record_id=hansard_id  # Official record's ID for speeches.
+            )
+            for x in web_links:
+                event.add_document(x.text_content(),
+                                   x.attrib['href'],
+                                   type="transcript",
+                                   mimetype="text/html")
+            for x in pdf_links:
+                event.add_document(x.text_content(),
+                                   x.attrib['href'],
+                                   type="transcript",
+                                   mimetype="application/pdf")
+            event.add_source(HANSARD_URL)
+            self.save_object(event)
 
-            if hansard_html == []:
-                continue
-            for a in hansard_html:
+            for a in web_links:
                 self.scrape_hansard(session, a.attrib['href'], hansard_id)
