@@ -21,6 +21,7 @@ class BCEventScraper(EventScraper):
         page = self.lxmlize(HANSARD_URL)
         for row in page.xpath("//table/tr"):
             ids = row.xpath(".//td[@align='left']/p")
+            # print [x.text_content() for x in ids]
 
             web_links = row.xpath(".//a[contains(text(), 'HTML')]")
             pdf_links = row.xpath(".//a[contains(text(), 'PDF')]")
@@ -28,13 +29,14 @@ class BCEventScraper(EventScraper):
             if web_links == [] and pdf_links == []:
                 continue
 
-            if ids == [] or len(ids) != 1:
+            if ids == []:
                 continue
 
-            ids = ids[0]
+            ids = ids[-1]
             date = ids.text.strip()
             hansard_id = ids.xpath(".//br")[0].tail
             hansard_id = re.sub("\s+", " ", hansard_id).strip()
+            print hansard_id
             if date == "":
                 continue
 

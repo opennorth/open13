@@ -52,6 +52,8 @@ class BCSpeechScraper(SpeechScraper):
                     self.save_speech(speech)
 
                 person = attribution[0].text_content().strip()
+                if person.endswith(":"):
+                    person = person.rstrip(":")
                 if person == "":
                     print "Error: empty person string. Bad juju."
                     continue
