@@ -4,7 +4,7 @@ from billy.scrape.committees import CommitteeScraper, Committee
 from scrapelib import HTTPError
 
 
-class MBCommitteeScraper(CommitteeScraper):
+class SKCommitteeScraper(CommitteeScraper):
 
     jurisdiction = 'sk'
 
