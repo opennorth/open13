@@ -60,7 +60,7 @@ class BCEventScraper(EventScraper):
                     date
                 ) if time_of_day else "Session on %s" % (date),
                 location='Parliament Buildings',
-                speech_id=hansard_id
+                record_id=hansard_id  # Official record's ID for speeches.
             )
 
             for x in web_links:
