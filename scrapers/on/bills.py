@@ -1,7 +1,7 @@
 from datetime import datetime
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
-from .utils import clean_spaces
+from billy.scrape.utils import clean_spaces
 
 class ONBillScraper(BillScraper):
     jurisdiction = 'on'

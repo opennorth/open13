@@ -1,7 +1,7 @@
 import lxml.html
 
 from billy.scrape.legislators import LegislatorScraper, Legislator
-
+from billy.scrape.utils import clean_spaces
 
 class BCLegislatorScraper(LegislatorScraper):
     jurisdiction = 'bc'
@@ -50,7 +50,7 @@ class BCLegislatorScraper(LegislatorScraper):
                           'following-sibling::p/strong/text()')]:
             party = doc.xpath(xpath)
             if party:
-                party = party.pop()
+                party = clean_spaces(party.pop()).title()
                 break
 
         email = doc.xpath('//a[starts-with(@href, "mailto:")]/text()').pop()

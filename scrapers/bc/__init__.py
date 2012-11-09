@@ -7,10 +7,10 @@ metadata = dict(
     legislature_name=u'Legislative Assembly of British Columbia',
     # this should all go away once metadata v2 lands
     lower_chamber_name='',
-    upper_chamber_name='',
+    #upper_chamber_name='',
     lower_chamber_title='MLA',
-    upper_chamber_title='',
-    upper_chamber_term='',
+    #upper_chamber_title='',
+    #upper_chamber_term='',
     lower_chamber_term='',
     terms=[
         dict(name='39', sessions=['39:3'], start_year=2009, end_year=2011),
