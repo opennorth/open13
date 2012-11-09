@@ -76,9 +76,9 @@ class ONSpeechScraper(SpeechScraper):
                 # an empty tag with nobody speaking in prior session
                 anchor = day_url + '#' + item.xpath('a')[0].get('name')
                 sequence += 1
-                speech = Speech(session, 'floor-' + date, when, sequence,
-                                '-fixme-', item.text_content(), section=section,
-                                type='procedure')
+                speech = Speech(session, chamber, 'floor-' + date, when,
+                                sequence, '-fixme-', item.text_content(),
+                                section=section, type='procedure')
                 speech.add_source(anchor)
                 self.save_speech(speech)
                 speech = None
