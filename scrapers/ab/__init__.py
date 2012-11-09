@@ -4,9 +4,9 @@ metadata = dict(
     abbreviation='ab',
     legislature_name='Legislative Assembly of Alberta',
     lower_chamber_name='Assembly',
-    # upper_chamber_name='',
+    upper_chamber_name='',
     lower_chamber_title='MLA',
-    # upper_chamber_title='',
+    upper_chamber_title='',
     terms=[
         dict(name='28', sessions=['28:1'],
              start_year=2012, end_year=None),
