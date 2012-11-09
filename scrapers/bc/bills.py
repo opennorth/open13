@@ -10,13 +10,9 @@ class BCBillScraper(BillScraper):
     categorizer = Categorizer()
 
     def scrape(self, session, chambers):
-        url = 'http://www.leg.bc.ca/legislation/bills.htm'
-        doc = lxml.html.fromstring(self.urlopen(url))
-        doc.make_links_absolute(url)
-
         # Get the progress table.
-        url = doc.xpath('//a[text()="Progress of Bills"]/@href').pop()
-        doc = lxml.html.fromstring(self.urlopen(url))
+        url = 'http://www.leg.bc.ca/%s/votes/progress-of-bills.htm'
+        doc = lxml.html.fromstring(self.urlopen(url % session))
         doc.make_links_absolute(url)
 
         for tr in doc.xpath('//table[@class="votestable"]/tr')[1:]:
