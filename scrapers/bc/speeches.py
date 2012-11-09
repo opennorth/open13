@@ -19,7 +19,7 @@ class BCSpeechScraper(SpeechScraper):
         page.make_links_absolute(url)
         return page
 
-    def scrape_hansard(self, session, url, hansard_id):
+    def scrape_hansard(self, session, chamber, url, hansard_id):
         subject = None
         procedure = None
         speech = None
@@ -70,6 +70,7 @@ class BCSpeechScraper(SpeechScraper):
 
                 text = para.text_content()
                 speech = Speech(session,
+                                chamber,
                                 hansard_id,
                                 day,
                                 sequence,
@@ -154,4 +155,5 @@ class BCSpeechScraper(SpeechScraper):
             self.save_object(event)
 
             for a in web_links:
-                self.scrape_hansard(session, a.attrib['href'], hansard_id)
+                self.scrape_hansard(session, 'lower',
+                                    a.attrib['href'], hansard_id)
