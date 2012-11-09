@@ -13,10 +13,15 @@ metadata = dict(
     upper_chamber_term='',
     lower_chamber_term='',
     terms=[
-        dict(name='39', sessions=['39:3'], start_year=2009, end_year=2011),
+        dict(name='39', sessions=['39th4th', '39th3rd'],
+             start_year=2009, end_year=2011),
     ],
     session_details={
-        '39:3': {'type': 'primary',
+        '39th4th': {'type': 'primary',
+                 'display_name': '34th Session, 39th Parliament',
+                 '_scraped_name': u'34th Session, 39th Parliament (2011)',
+                },
+        '39th3rd': {'type': 'primary',
                  'display_name': '3rd Session, 39th Parliament',
                  '_scraped_name': u'3rd Session, 39th Parliament (2011)',
                 },
