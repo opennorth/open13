@@ -8,7 +8,7 @@ metadata = dict(
     # this should all go away once metadata v2 lands
     lower_chamber_name='',
     upper_chamber_name='',
-    lower_chamber_title='MPP',
+    lower_chamber_title=u'député',
     upper_chamber_title='',
     upper_chamber_term='',
     lower_chamber_term='',
