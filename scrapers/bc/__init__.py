@@ -26,7 +26,7 @@ metadata = dict(
                  '_scraped_name': u'3rd Session, 39th Parliament (2011)',
                 },
     },
-    feature_flags=[],
+    feature_flags=['events', 'speeches'],
     _ignored_scraped_sessions=[
         '2nd Session, 39th Parliament (2010)',
         '1st Session, 39th Parliament (2009)',
