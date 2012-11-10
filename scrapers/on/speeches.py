@@ -25,10 +25,10 @@ class ONSpeechScraper(SpeechScraper):
             doc = self.lxmlize(url)
 
             for day_url in doc.xpath('//span[@class="date"]/parent::a/@href'):
-                self.scrape_day(session, day_url)
+                self.scrape_day(session, 'lower', day_url)
 
 
-    def scrape_day(self, session, day_url):
+    def scrape_day(self, session, chamber, day_url):
         doc = self.lxmlize(day_url)
 
         date = re.findall('Date=(\d{4}-\d{1,2}-\d{1,2})', day_url)[0]
@@ -63,8 +63,8 @@ class ONSpeechScraper(SpeechScraper):
                 speaker = strong.text_content().rstrip(':')
                 text = strong.tail
                 sequence += 1
-                speech = Speech(session, 'floor-' + date, when, sequence,
-                                speaker, text, section=section)
+                speech = Speech(session, chamber, 'floor-' + date, when,
+                                sequence, speaker, text, section=section)
                 speech.add_source(anchor)
             elif item.tag == 'p' and item.get('class') == 'timeStamp':
                 timestamp = item.text_content()
@@ -76,9 +76,9 @@ class ONSpeechScraper(SpeechScraper):
                 # an empty tag with nobody speaking in prior session
                 anchor = day_url + '#' + item.xpath('a')[0].get('name')
                 sequence += 1
-                speech = Speech(session, 'floor-' + date, when, sequence,
-                                '-fixme-', item.text_content(), section=section,
-                                type='procedure')
+                speech = Speech(session, chamber, 'floor-' + date, when,
+                                sequence, '-fixme-', item.text_content(),
+                                section=section, type='procedure')
                 speech.add_source(anchor)
                 self.save_speech(speech)
                 speech = None

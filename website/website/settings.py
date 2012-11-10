@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'billy.web.admin',
     'billy.web.api',
+    'billy.web.public',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

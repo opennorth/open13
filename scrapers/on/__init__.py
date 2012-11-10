@@ -72,7 +72,7 @@ metadata = dict(
                  '_scraped_name': u'40:1 (2011-11-21 - 2012-10-15)',
                 },
     },
-    feature_flags=[],
+    feature_flags=['events', 'speeches'],
     _ignored_scraped_sessions=[]
 
 )

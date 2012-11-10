@@ -1,7 +1,7 @@
 import lxml.html
 
 from billy.scrape.legislators import LegislatorScraper, Legislator
-
+from billy.scrape.utils import clean_spaces
 
 class BCLegislatorScraper(LegislatorScraper):
     jurisdiction = 'bc'
@@ -29,6 +29,8 @@ class BCLegislatorScraper(LegislatorScraper):
         full_name = doc.xpath('//b[starts-with(., "MLA:")]/text()').pop()
         if ':' in full_name:
             _, full_name = full_name.split(':')
+        full_name.strip('Hon. ')
+        full_name = clean_spaces(full_name)
 
         # Offices
         for xpath in [('//b[starts-with(., "MLA:")]/../'
@@ -41,7 +43,7 @@ class BCLegislatorScraper(LegislatorScraper):
                              'following-sibling::p/strong/em/text()')]:
             district = doc.xpath(xpath)
             if district:
-                district = district.pop()
+                district = clean_spaces(district.pop())
                 break
 
         for xpath in [('//b[starts-with(., "MLA:")]/../'
@@ -50,7 +52,7 @@ class BCLegislatorScraper(LegislatorScraper):
                           'following-sibling::p/strong/text()')]:
             party = doc.xpath(xpath)
             if party:
-                party = party.pop()
+                party = clean_spaces(party.pop()).title()
                 break
 
         email = doc.xpath('//a[starts-with(@href, "mailto:")]/text()').pop()

@@ -19,7 +19,7 @@ class BCSpeechScraper(SpeechScraper):
         page.make_links_absolute(url)
         return page
 
-    def scrape_hansard(self, session, url, hansard_id):
+    def scrape_hansard(self, session, chamber, url, hansard_id):
         subject = None
         procedure = None
         speech = None
@@ -70,6 +70,7 @@ class BCSpeechScraper(SpeechScraper):
 
                 text = para.text_content()
                 speech = Speech(session,
+                                chamber,
                                 hansard_id,
                                 day,
                                 sequence,
@@ -115,6 +116,10 @@ class BCSpeechScraper(SpeechScraper):
             if ids == []:
                 continue
 
+            if len(web_links) != 1:
+                continue  # XXX: Bug, deal with me! We sometimes get a ton
+                # of unwanted hansard. Some of the xpath must be wrong.
+
             ids = ids[-1]
             date = ids.text.strip()
             hansard_id = ids.xpath(".//br")[0].tail
@@ -154,4 +159,5 @@ class BCSpeechScraper(SpeechScraper):
             self.save_object(event)
 
             for a in web_links:
-                self.scrape_hansard(session, a.attrib['href'], hansard_id)
+                self.scrape_hansard(session, 'lower',
+                                    a.attrib['href'], hansard_id)
