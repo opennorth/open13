@@ -4,7 +4,7 @@ Open13 is a project to collect information on provincial legislatures in Canada,
 
 ## Dependencies
 
-Install [Git](http://git.io/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
+You need Python 2.7 or greater. Install [Git](http://git.io/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
 
 ### Ubuntu
 
