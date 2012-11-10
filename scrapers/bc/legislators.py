@@ -43,7 +43,7 @@ class BCLegislatorScraper(LegislatorScraper):
                              'following-sibling::p/strong/em/text()')]:
             district = doc.xpath(xpath)
             if district:
-                district = district.pop()
+                district = clean_spaces(district.pop())
                 break
 
         for xpath in [('//b[starts-with(., "MLA:")]/../'
