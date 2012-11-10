@@ -30,7 +30,7 @@ class RepresentLegislatorScraper(LegislatorScraper):
             for rep_office in rep.get('offices', []):
                 name = rep_office.get('postal', '').split('\n')[0]
                 if not name:
-                    name = (rep_office.get('type').title() + ' office').split()
+                    name = (rep_office.get('type', '').title() + ' office').strip()
                 leg.add_office(
                     'capitol' if rep_office.get('type') == 'legislature' else 'district',
                     name,
