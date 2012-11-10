@@ -29,6 +29,8 @@ class BCLegislatorScraper(LegislatorScraper):
         full_name = doc.xpath('//b[starts-with(., "MLA:")]/text()').pop()
         if ':' in full_name:
             _, full_name = full_name.split(':')
+        full_name.strip('Hon. ')
+        full_name = clean_spaces(full_name)
 
         # Offices
         for xpath in [('//b[starts-with(., "MLA:")]/../'
