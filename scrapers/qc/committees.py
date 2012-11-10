@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import pdb
-import itertools
 import lxml.html
 from billy.scrape.committees import CommitteeScraper, Committee
 
