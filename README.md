@@ -4,7 +4,7 @@ Open13 is a project to collect information on provincial legislatures in Canada,
 
 ## Dependencies
 
-Install [Git](http://git.io/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
+You need Python 2.7 or greater. Install [Git](http://git.io/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
 
 ### Ubuntu
 
@@ -41,12 +41,22 @@ echo "source /usr/local/bin/virtualenvwrapper.sh" >> .zshrc
 
 ## Getting Started
 
-Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, then clone your fork, create a development environment, and install requirements:
+Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, clone your fork, and change into its directory:
 
 ```sh
 git clone https://github.com/YOURUSERNAME/open13.git
 cd open13
+```
+
+Next, create a development environment. If your version of `virtualenv` is less than 1.7, omit the `--system-site-packages` switch:
+
+```sh
 mkvirtualenv open13 --system-site-packages
+```
+
+Finally, install the requirements:
+
+```sh
 pip install -r requirements.txt
 cp billy_settings.py.example billy_settings.py
 ```
