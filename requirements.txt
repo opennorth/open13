@@ -1,2 +1,2 @@
-billy
+-e git+https://github.com/sunlightlabs/billy.git#egg=billy
 lxml>=2.2
