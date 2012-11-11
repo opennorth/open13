@@ -81,7 +81,7 @@ class BCLegislatorScraper(LegislatorScraper):
             dist_office = dist_office.getparent().getparent().text_content()
             _, dist_office = dist_office.split(':')
             dist_office = dist_office.strip()
-            leg.add_office('district', 'constituency',
+            leg.add_office('district', 'Constituency Office',
                 address=dist_office,
                 phone=phone.pop(), fax=fax.pop())
 

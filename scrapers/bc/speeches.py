@@ -68,6 +68,10 @@ class BCSpeechScraper(SpeechScraper):
                     continue
 
                 text = para.text_content()
+                if text.startswith(person):
+                    # Remove the speaker's name from the text
+                    text = text[len(person):].lstrip(':')
+
                 speech = Speech(session,
                                 chamber,
                                 hansard_id,
