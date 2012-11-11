@@ -1,7 +1,7 @@
 from datetime import datetime
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
-from .utils import clean_spaces
+from billy.scrape.utils import clean_spaces
 
 class ONBillScraper(BillScraper):
     jurisdiction = 'on'
@@ -15,7 +15,7 @@ class ONBillScraper(BillScraper):
         for row in doc.xpath('//table/tr'):
             id, title_td, sponsor = row.xpath('td')
             bill_id = id.text_content().strip()
-            title = title_td.text_content().strip()
+            title = clean_spaces(title_td.text_content())
             # pull sponsor off different page
             bill = Bill(session, 'lower', bill_id, title)
             # skip to detail page

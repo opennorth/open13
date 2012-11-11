@@ -79,6 +79,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'billy.web.admin',
     'billy.web.api',
     'billy.web.public',

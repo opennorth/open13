@@ -9,3 +9,5 @@ MONGO_DATABASE = 'open13'
 # PARTY_DETAILS
 
 LEVEL_FIELD = 'jurisdiction'
+BOUNDARY_SERVICE_URL='http://represent.opennorth.ca/'
+BOUNDARY_SERVICE_SETS='british-columbia-electoral-districts'

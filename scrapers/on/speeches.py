@@ -6,6 +6,13 @@ import re
 
 from .utils import clean_spaces
 
+"""
+TODO
+    * better handle attribution of procedural items (see 'fixme')
+    * handle votes (unknown tag errors)
+    * fix hard coded list of months, compute from begin/end date of session
+"""
+
 
 class ONSpeechScraper(SpeechScraper):
     jurisdiction = 'on'
@@ -76,6 +83,10 @@ class ONSpeechScraper(SpeechScraper):
                 # an empty tag with nobody speaking in prior session
                 anchor = day_url + '#' + item.xpath('a')[0].get('name')
                 sequence += 1
+
+                if item.text_content().strip() == '':
+                    continue
+
                 speech = Speech(session, chamber, 'floor-' + date, when,
                                 sequence, '-fixme-', item.text_content(),
                                 section=section, type='procedure')

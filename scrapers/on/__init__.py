@@ -3,13 +3,9 @@ metadata = dict(
     capitol_timezone='America/Toronto',
     abbreviation='on',
     legislature_name='Legislative Assembly of Ontario',
-    # this should all go away once metadata v2 lands
-    lower_chamber_name='',
-    upper_chamber_name='',
-    lower_chamber_title='',
-    upper_chamber_title='MPP',
-    upper_chamber_term='',
-    lower_chamber_term='',
+    chambers = {
+        'lower': {'name': 'Assembly', 'title': 'MPP'}
+    },
     terms=[
         dict(name='36', sessions=['36:1', '36:2', '36:3'],
              start_year=1995, end_year=1999),
@@ -72,7 +68,7 @@ metadata = dict(
                  '_scraped_name': u'40:1 (2011-11-21 - 2012-10-15)',
                 },
     },
-    feature_flags=[],
+    feature_flags=['events', 'speeches'],
     _ignored_scraped_sessions=[]
 
 )

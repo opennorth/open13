@@ -21,7 +21,7 @@ class ABBillScraper(BillScraper):
 
             bill_id = td1.text_content().replace(u'\xa0', ' ')
             bill_id.strip('*')
-            title = td1.text_content()
+            title = td2.text_content()
             bill = Bill(session, 'lower', bill_id, title, type='bill')
             url = bill['url'] = td1.xpath('a/@href').pop()
             bill.add_source(url)

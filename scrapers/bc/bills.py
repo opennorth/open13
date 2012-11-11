@@ -1,6 +1,7 @@
 import datetime
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
+from billy.scrape.utils import clean_spaces
 
 from .actions import Categorizer
 
@@ -11,17 +12,21 @@ class BCBillScraper(BillScraper):
 
     def scrape(self, session, chambers):
         # Get the progress table.
-        url = 'http://www.leg.bc.ca/%s/votes/progress-of-bills.htm'
-        doc = lxml.html.fromstring(self.urlopen(url % session))
+        url = 'http://www.leg.bc.ca/%s/votes/progress-of-bills.htm' % session
+        doc = lxml.html.fromstring(self.urlopen(url))
         doc.make_links_absolute(url)
+        session_start = self.metadata['session_details'][session]['start_date']
+        session_end = self.metadata['session_details'][session]['end_date']
 
         for tr in doc.xpath('//table[@class="votestable"]/tr')[1:]:
-            bill_id = tr[0].text_content()
-            title = tr[1].text_content()
+            bill_id = clean_spaces(tr[0].text_content()).strip('*')
+            if 'Ruled out of order' in bill_id:
+                continue
+            title = clean_spaces(tr[1].text_content())
             if title == 'Title':
                 # This is a header row.
                 continue
-            sponsor = tr[2].text_content()
+            sponsor = clean_spaces(tr[2].text_content())
             chapter = tr[-1].text_content()
 
             bill = Bill(session, 'lower', bill_id, title, type='bill')
@@ -59,11 +64,23 @@ class BCBillScraper(BillScraper):
                         break
                 if date is None:
                     continue
-                date = datetime.datetime(month=date.month, day=date.day,
 
-                                         # XXX: Horific hack alert
-                                         # Assuming the current year applies.
-                                         year=datetime.datetime.now().year)
+                # guess the year of the action
+                date = datetime.datetime(month=date.month, day=date.day,
+                                         year=session_start.year)
+                if date < session_start or date > session_end:
+                    date = datetime.datetime(month=date.month, day=date.day,
+                                             year=session_end.year)
+                if date < session_start or date > session_end:
+                    self.error('action %s appears to have occured on %s, '
+                               'which is outside of session', action, date)
+                # XXX: it should be noted that this isn't perfect
+                # if a session is longer than a year there's a chance we get
+                # the action date wrong (with a preference for the earliest
+                # year)
+                # in practice this doesn't seem to happen, and hopefully
+                # if/when it does they will add years to these action dates
+
 
                 attrs = dict(action=action, date=date, actor='lower')
                 attrs.update(self.categorizer.categorize(action))

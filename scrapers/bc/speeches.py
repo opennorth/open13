@@ -116,6 +116,10 @@ class BCSpeechScraper(SpeechScraper):
             if ids == []:
                 continue
 
+            if len(web_links) != 1:
+                continue  # XXX: Bug, deal with me! We sometimes get a ton
+                # of unwanted hansard. Some of the xpath must be wrong.
+
             ids = ids[-1]
             date = ids.text.strip()
             hansard_id = ids.xpath(".//br")[0].tail
