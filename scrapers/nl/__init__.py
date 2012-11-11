@@ -6,12 +6,9 @@ metadata = dict(
     abbreviation='nl',
     legislature_name='Newfoundland and Labrador House of Assembly',
     # this should all go away once metadata v2 lands
-    lower_chamber_name='',
-    upper_chamber_name='',
-    lower_chamber_title='Member of the House of Assembly',
-    upper_chamber_title='',
-    upper_chamber_term='',
-    lower_chamber_term='',
+    chambers = {
+        'lower': {'name': 'Assembly', 'title': 'MLA'}
+    },
     terms=[
         dict(name='47', sessions=['47:1'], start_year=2011, end_year=2012),
     ],
