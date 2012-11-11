@@ -1,6 +1,7 @@
 import datetime
 import lxml.html
 from billy.scrape.bills import BillScraper, Bill
+from billy.scrape.utils import clean_spaces
 
 from .actions import Categorizer
 
@@ -11,17 +12,19 @@ class BCBillScraper(BillScraper):
 
     def scrape(self, session, chambers):
         # Get the progress table.
-        url = 'http://www.leg.bc.ca/%s/votes/progress-of-bills.htm'
-        doc = lxml.html.fromstring(self.urlopen(url % session))
+        url = 'http://www.leg.bc.ca/%s/votes/progress-of-bills.htm' % session
+        doc = lxml.html.fromstring(self.urlopen(url))
         doc.make_links_absolute(url)
 
         for tr in doc.xpath('//table[@class="votestable"]/tr')[1:]:
-            bill_id = tr[0].text_content()
-            title = tr[1].text_content()
+            bill_id = clean_spaces(tr[0].text_content()).strip('*')
+            if 'Ruled out of order' in bill_id:
+                continue
+            title = clean_spaces(tr[1].text_content())
             if title == 'Title':
                 # This is a header row.
                 continue
-            sponsor = tr[2].text_content()
+            sponsor = clean_spaces(tr[2].text_content())
             chapter = tr[-1].text_content()
 
             bill = Bill(session, 'lower', bill_id, title, type='bill')
