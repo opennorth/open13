@@ -22,8 +22,6 @@ class BCCommitteeScraper(CommitteeScraper):
             url = anchor.attrib['href']
             comm.add_source(url)
             self.scrape_committee(comm, url)
-            import pprint
-            pprint.pprint(comm)
             self.save_committee(comm)
 
     def scrape_committee(self, comm, url):
