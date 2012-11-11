@@ -5,13 +5,9 @@ metadata = dict(
     capitol_timezone='America/Chicago',
     abbreviation='sk',
     legislature_name=u'Legislative Assembly of Saskatchewan',
-    # this should all go away once metadata v2 lands
-    lower_chamber_name='',
-    upper_chamber_name='',
-    lower_chamber_title='MLA',
-    upper_chamber_title='',
-    upper_chamber_term='',
-    lower_chamber_term='',
+    chambers = {
+        'lower': {'name': 'Assembly', 'title': 'MLA'}
+    },
     terms=[
         dict(name='27', sessions=['27:1'], start_year=2009, end_year=2011),
     ],

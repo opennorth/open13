@@ -7,7 +7,6 @@ import logging
 import re
 
 logger = logging.getLogger('open13')
-HANSARD_URL = 'http://www.leg.bc.ca/hansard/8-8.htm'
 
 
 class BCSpeechScraper(SpeechScraper):
@@ -103,8 +102,13 @@ class BCSpeechScraper(SpeechScraper):
             self.save_object(speech)
 
     def scrape(self, session, chambers):
-        # XXX: Chamber is meaningless here.
-        page = self.lxmlize(HANSARD_URL)
+        hansard_urls = {'39th1st': 'http://www.leg.bc.ca/hansard/39th1st/index.htm',
+                        '39th2nd': 'http://www.leg.bc.ca/hansard/39th2nd/index.htm',
+                        '39th3rd': 'http://www.leg.bc.ca/hansard/39th3rd/index.htm',
+                        '39th4th': 'http://www.leg.bc.ca/hansard/8-8.htm'}
+        url = hansard_urls[session]
+
+        page = self.lxmlize(url)
         for row in page.xpath("//table/tr"):
             hansard_id = row.xpath(".//td[@align='left']")
             ids = row.xpath(".//td[@align='left']/p")
@@ -155,7 +159,7 @@ class BCSpeechScraper(SpeechScraper):
                                    x.attrib['href'],
                                    type="transcript",
                                    mimetype="application/pdf")
-            event.add_source(HANSARD_URL)
+            event.add_source(url)
             self.save_object(event)
 
             for a in web_links:

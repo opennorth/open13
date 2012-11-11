@@ -15,7 +15,7 @@ class ONBillScraper(BillScraper):
         for row in doc.xpath('//table/tr'):
             id, title_td, sponsor = row.xpath('td')
             bill_id = id.text_content().strip()
-            title = title_td.text_content().strip()
+            title = clean_spaces(title_td.text_content())
             # pull sponsor off different page
             bill = Bill(session, 'lower', bill_id, title)
             # skip to detail page

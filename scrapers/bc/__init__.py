@@ -1,35 +1,45 @@
 # encoding: utf-8
+import datetime
 
 metadata = dict(
     name='British Columbia',
     capitol_timezone='America/Vancouver',
     abbreviation='bc',
     legislature_name=u'Legislative Assembly of British Columbia',
-    # this should all go away once metadata v2 lands
-    lower_chamber_name='',
-    lower_chamber_title='MLA',
-    lower_chamber_term='',
-    #upper_chamber_name='',
-    #upper_chamber_title='',
-    #upper_chamber_term='',
+    chambers = {
+        'lower': {'name': 'Assembly', 'title': 'MLA'}
+    },
     terms=[
-        dict(name='39', sessions=['39th3rd', '39th4th'],
-             start_year=2009, end_year=2011),
+        dict(name='39', sessions=['39th1st', '39th2nd', '39th3rd', '39th4th'],
+             start_year=2009, end_year=2012),
     ],
     session_details={
-        '39th4th': {'type': 'primary',
-                 'display_name': '4th Session, 39th Parliament',
-                 '_scraped_name': u'34th Session, 39th Parliament (2011)',
+        '39th1st': {'type': 'primary',
+                 'display_name': '1st Session, 39th Parliament',
+                 '_scraped_name': u'1st Session, 39th Parliament (2009)',
+                 'start_date': datetime.datetime(2009, 8, 25),
+                 'end_date': datetime.datetime(2010, 2, 9)
+                },
+        '39th2nd': {'type': 'primary',
+                 'display_name': '2nd Session, 39th Parliament',
+                 '_scraped_name': u'2nd Session, 39th Parliament (2010)',
+                 'start_date': datetime.datetime(2010, 2, 9),
+                 'end_date': datetime.datetime(2011, 2, 14)
                 },
         '39th3rd': {'type': 'primary',
                  'display_name': '3rd Session, 39th Parliament',
                  '_scraped_name': u'3rd Session, 39th Parliament (2011)',
+                 'start_date': datetime.datetime(2011, 2, 14),
+                 'end_date': datetime.datetime(2011, 10, 3)
+                },
+        '39th4th': {'type': 'primary',
+                 'display_name': '4th Session, 39th Parliament',
+                 'start_date': datetime.datetime(2011, 10, 3),
+                 'end_date': datetime.datetime(2012, 5, 31)
                 },
     },
     feature_flags=['events', 'speeches'],
     _ignored_scraped_sessions=[
-        '2nd Session, 39th Parliament (2010)',
-        '1st Session, 39th Parliament (2009)',
         '5th Session, 38th Parliament (2009)',
         '4th Session, 38th Parliament (2008)',
         '3rd Session, 38th Parliament (2007)',

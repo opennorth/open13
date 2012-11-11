@@ -5,13 +5,9 @@ metadata = dict(
     capitol_timezone='America/Quebec',
     abbreviation='qc',
     legislature_name=u'Assemblée nationale du Québec',
-    # this should all go away once metadata v2 lands
-    lower_chamber_name='',
-    upper_chamber_name='',
-    lower_chamber_title=u'député',
-    upper_chamber_title='',
-    upper_chamber_term='',
-    lower_chamber_term='',
+    chambers = {
+        'lower': {'name': 'Assembly', 'title': 'député'}
+    },
     terms=[
         dict(name='40', sessions=['40:1'], start_year=2012, end_year=2013),
     ],

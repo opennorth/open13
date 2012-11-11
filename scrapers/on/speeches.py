@@ -6,6 +6,13 @@ import re
 
 from .utils import clean_spaces
 
+"""
+TODO
+    * better handle attribution of procedural items (see 'fixme')
+    * handle votes (unknown tag errors)
+    * fix hard coded list of months, compute from begin/end date of session
+"""
+
 
 class ONSpeechScraper(SpeechScraper):
     jurisdiction = 'on'
