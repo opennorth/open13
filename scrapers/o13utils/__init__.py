@@ -28,9 +28,12 @@ class RepresentLegislatorScraper(LegislatorScraper):
             )
             leg.add_source(rep['source_url'])
             for rep_office in rep.get('offices', []):
+                name = rep_office.get('postal', '').split('\n')[0]
+                if not name:
+                    name = (rep_office.get('type', '').title() + ' office').strip()
                 leg.add_office(
                     'capitol' if rep_office.get('type') == 'legislature' else 'district',
-                    rep_office.get('postal', '').split('\n')[0],
+                    name,
                     phone=rep_office.get('tel'),
                     fax=rep_office.get('fax'),
                     address=rep_office.get('postal')
