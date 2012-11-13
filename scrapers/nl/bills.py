@@ -32,6 +32,14 @@ class NLBillScraper(BillScraper):
             if chapter:
                 bill['chapter'] = chapter
 
+            # FIXME need to do more work to figure out what
+            # version the text *really* is
+            td = tr[1]
+            bill_url = td.xpath('a/@href')
+            if bill_url:
+                bill.add_version(url=bill_url.pop(), name='First Reading',
+                    mimetype='text/html')
+
             # Actions and version urls.
             data = zip([
                 'First Reading',
@@ -44,11 +52,6 @@ class NLBillScraper(BillScraper):
                 tr[2:-1])
 
             for action, td in data:
-                # version_url = td.xpath('a/@href')
-                # if version_url:
-                #     bill.add_version(url=version_url.pop(), name=action,
-                #         mimetype='text/html')
-
                 date_text = td.text_content()
                 date = None
                 fmt = r'%b. %d/%Y'
