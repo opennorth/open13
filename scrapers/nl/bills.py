@@ -20,14 +20,13 @@ class NLBillScraper(BillScraper):
             bill_id = clean_spaces(tr[0].text_content()).strip('*')
             if not bill_id:
                 break # empty rows extend past actual list of bills
+            if bill_id.endswith("."):
+                bill_id = bill_id[:-1]
 
             title = clean_spaces(tr[1].text_content())
-            sponsor = "NA"
-            # sponsor = clean_spaces(tr[2].text_content())
             chapter = tr[-1].text_content()
 
             bill = Bill(session, 'lower', bill_id, title, type='bill')
-            bill.add_sponsor(name=sponsor, type='primary')
 
             if chapter:
                 bill['chapter'] = chapter
