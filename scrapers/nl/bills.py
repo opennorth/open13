@@ -18,6 +18,9 @@ class NLBillScraper(BillScraper):
 
         for tr in doc.xpath('//table[@class="bills"]/tr')[1:]:
             bill_id = clean_spaces(tr[0].text_content()).strip('*')
+            if not bill_id:
+                break # empty rows extend past actual list of bills
+
             title = clean_spaces(tr[1].text_content())
             sponsor = "NA"
             # sponsor = clean_spaces(tr[2].text_content())
