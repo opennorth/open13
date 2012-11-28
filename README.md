@@ -64,7 +64,6 @@ Finally, install the requirements:
 ```sh
 workon open13
 pip install -r requirements.txt
-cp billy_settings.py.example billy_settings.py
 ```
 
 You're now ready to work on Open13!
