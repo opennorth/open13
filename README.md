@@ -4,12 +4,12 @@ Open13 is a project to collect information on provincial legislatures in Canada,
 
 ## Dependencies
 
-You need Python 2.7 or greater. Install [Git](http://git.io/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
+You need Python 2.7 or greater. Install [Git](http://git.io/), [MongoDB](http://docs.mongodb.org/manual/installation/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
 
 ### Ubuntu
 
 ```sh
-sudo apt-get install git virtualenvwrapper python-lxml
+sudo apt-get install git virtualenvwrapper python-lxml mongodb-10gen
 ```
 
 If your shell is `bash`, it should automatically load `virtualenvwrapper` through `/etc/bash_completion.d/virtualenvwrapper`.
@@ -20,7 +20,7 @@ Use the Homebrew package manager.
 
 ```sh
 ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-brew install git
+brew install git mongodb
 sudo easy_install pip
 sudo pip install virtualenv virtualenvwrapper
 mkdir ~/.virtualenvs
