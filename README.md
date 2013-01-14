@@ -23,20 +23,19 @@ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
 brew install git
 sudo easy_install pip
 sudo pip install virtualenv virtualenvwrapper
-cd $HOME
-mkdir .virtualenvs
+mkdir ~/.virtualenvs
 ```
 
 Have your shell run `/usr/local/bin/virtualenvwrapper.sh` on login, e.g.:
 
 ```sh
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> .bash_login
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_login
 ```
 
 Or:
 
 ```sh
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> .zshrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.zshrc
 ```
 
 Then close and re-open your shell.
