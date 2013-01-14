@@ -21,6 +21,10 @@ Use the Homebrew package manager.
 ```sh
 ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
 brew install git mongodb
+mkdir -p ~/Library/LaunchAgents
+launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+cp /usr/local/Cellar/mongodb/*/homebrew.mxcl.mongodb.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
 sudo easy_install pip
 sudo pip install virtualenv virtualenvwrapper
 mkdir ~/.virtualenvs
