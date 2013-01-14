@@ -16,7 +16,7 @@ If your shell is `bash`, it should automatically load `virtualenvwrapper` throug
 
 ### OS X
 
-Use the Homebrew package manager.
+Use the Homebrew package manager. If you run into any problems, make sure you are using the latest Homebrew by running `brew update` and check for problems with your installation by running `brew doctor`.
 
 ```sh
 ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
