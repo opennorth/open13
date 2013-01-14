@@ -39,6 +39,8 @@ Or:
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> .zshrc
 ```
 
+Then close and re-open your shell.
+
 ## Getting Started
 
 Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, clone your fork, and change into its directory:
