@@ -68,6 +68,10 @@ pip install -r requirements.txt
 
 You're now ready to work on Open13!
 
+## Running Scrapers
+
+Run `billy-update -h` to read the documentation. For now, we don't use `billy-util` for anything.
+
 ## Writing a Scraper
 
 For now, see the [OpenStates documentation](http://openstates.org/contributing/).

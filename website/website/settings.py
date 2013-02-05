@@ -23,7 +23,7 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
-TE_FORMAT = 'Y-m-d'
+DATE_FORMAT = 'Y-m-d'
 TIME_FORMAT = 'H:i:s'
 DATETIME_FORMAT = 'Y-m-d H:i:s'
 
