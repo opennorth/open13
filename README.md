@@ -53,10 +53,10 @@ git clone https://github.com/YOURUSERNAME/open13.git
 cd open13
 ```
 
-Next, create a development environment. If your version of `virtualenv` is less than 1.7, omit the `--system-site-packages` switch:
+Next, create a development environment:
 
 ```sh
-mkvirtualenv open13 --system-site-packages
+mkvirtualenv open13
 ```
 
 Finally, install the requirements:
