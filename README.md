@@ -14,36 +14,6 @@ sudo apt-get install git virtualenvwrapper python-lxml mongodb-10gen
 
 If your shell is `bash`, it should automatically load `virtualenvwrapper` through `/etc/bash_completion.d/virtualenvwrapper`.
 
-### OS X
-
-Use the Homebrew package manager. If you run into any problems, make sure you are using the latest Homebrew by running `brew update` and check for problems with your installation by running `brew doctor`.
-
-```sh
-ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-brew install git mongodb
-mkdir -p ~/Library/LaunchAgents
-launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
-cp /usr/local/Cellar/mongodb/*/homebrew.mxcl.mongodb.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
-sudo easy_install pip
-sudo pip install virtualenv virtualenvwrapper
-mkdir ~/.virtualenvs
-```
-
-Have your shell run `/usr/local/bin/virtualenvwrapper.sh` on login, e.g.:
-
-```sh
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_login
-```
-
-Or:
-
-```sh
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.zshrc
-```
-
-Then close and re-open your shell.
-
 ## Getting Started
 
 Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, clone your fork, and change into its directory:
