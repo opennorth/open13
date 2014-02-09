@@ -4,15 +4,13 @@ Open13 is a project to collect information on provincial legislatures in Canada,
 
 ## Getting Started
 
-Follow the instructions in the [Python Quick Start Guide](https://github.com/opennorth/opennorth.ca/wiki/Python-Quick-Start%3A-OS-X) to install Homebrew, Git, MongoDB, Python, virtualenv, GDAL and PostGIS.
-
-On Ubuntu, run:
+Follow the instructions in the [Python Quick Start Guide](https://github.com/opennorth/opennorth.ca/wiki/Python-Quick-Start%3A-OS-X) to install Homebrew, Git, MongoDB, Python, virtualenv, GDAL and PostGIS on OS X. On Ubuntu, run:
 
     sudo apt-get install git virtualenvwrapper python-lxml mongodb-10gen
 
-If your shell is `bash`, it should automatically load `virtualenvwrapper` through `/etc/bash_completion.d/virtualenvwrapper`.
+On Ubuntu, if your shell is `bash`, it should automatically load `virtualenvwrapper` through `/etc/bash_completion.d/virtualenvwrapper`.
 
-Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, clone your fork, and change into its directory:
+Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub and install the project:
 
     mkvirtualenv open13
     git clone https://github.com/YOURUSERNAME/open13.git
