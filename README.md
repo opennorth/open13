@@ -2,39 +2,22 @@
 
 Open13 is a project to collect information on provincial legislatures in Canada, including legislators, bills, votes, committees, events and speeches. This data is made available through a [website](http://open13.ca/) and its [API](http://open13.ca/api/).
 
-## Dependencies
+## Getting Started
 
-You need Python 2.7 or greater. Install [Git](http://git.io/), [MongoDB](http://docs.mongodb.org/manual/installation/) and [virtualenv](http://pypi.python.org/pypi/virtualenv) to create isolated Python development environments. Restart your shell after running the commands below.
+Follow the instructions in the [Python Quick Start Guide](https://github.com/opennorth/opennorth.ca/wiki/Python-Quick-Start%3A-OS-X) to install Homebrew, Git, MongoDB, Python, virtualenv, GDAL and PostGIS.
 
-### Ubuntu
+On Ubuntu, run:
 
-```sh
-sudo apt-get install git virtualenvwrapper python-lxml mongodb-10gen
-```
+    sudo apt-get install git virtualenvwrapper python-lxml mongodb-10gen
 
 If your shell is `bash`, it should automatically load `virtualenvwrapper` through `/etc/bash_completion.d/virtualenvwrapper`.
 
-## Getting Started
-
 Fork [the main Git repository](https://github.com/opennorth/open13) on GitHub, clone your fork, and change into its directory:
 
-```sh
-git clone https://github.com/YOURUSERNAME/open13.git
-cd open13
-```
-
-Next, create a development environment:
-
-```sh
-mkvirtualenv open13
-```
-
-Finally, install the requirements:
-
-```sh
-workon open13
-pip install -r requirements.txt
-```
+    mkvirtualenv open13
+    git clone https://github.com/YOURUSERNAME/open13.git
+    cd open13
+    pip install -r requirements.txt
 
 You're now ready to work on Open13!
 
